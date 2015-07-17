@@ -28,11 +28,23 @@ $(window).ready(function(){
 		    if (data.hasOwnProperty(property)) {
 		        var split = property.split("/"); 			// Machine/Card, i.e Qemu/Quadro K2000
 		        var values =  data[property].split("/"); 	// Values, i.e 345/346/347
-		        	
+		        
+		        // Check if 1st part is formatted correctly
 		        if(split.length != 2){
 		        	displayError("Machine/Card format " + property + " not valid in: " + path);
 		        	return;
 		        }
+		        
+		        // Check that every value is a numeric value and convert them to floating numbers
+		        for(var i = 0; i < values.length; i++){
+		        	var float = parseFloat(values[i]);
+		        	if(isNaN(float)){
+		        		displayError("Non-numeric value(s) in: " + path);
+		        		return;
+		        	}
+		        	values[i] = float;
+		        }
+		        
 		        dataHandler.pushValues(split[0], split[1], values); // Machine, Card, Values
 		    }
 		}
@@ -54,7 +66,6 @@ $(window).ready(function(){
 
 	
 	function Machine(name) {
-		
 		var pairs = []; // Array of DataPair instances
 		
 		this.getName = function() {
@@ -92,7 +103,7 @@ $(window).ready(function(){
 		}
 		
 		this.print = function(){
-			console.log(card + ": " + values);
+			console.log("  - " + card + ": " + values);
 		};
 	}
 
