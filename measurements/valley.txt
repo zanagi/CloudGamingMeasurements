@@ -1,5 +1,5 @@
 {
 	"Docker/GeForce GTX 960": "2825/2826/2823",
-	"Qemu/GeForce GTX 960": "2524/2546/2532"
+	"Qemu/GeForce GTX 960": "2524/2546/2532",
 	"Qemu/Quadro K2000": "764/764/765"
 }
