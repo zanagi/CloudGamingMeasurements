@@ -2,12 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<link type="text/css" rel="stylesheet" href="css/base.css" />
+<link type="text/css" rel="stylesheet" href="css/index.css" />
 
 <!-- Bootstrap -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
 <title>Aalto CS - Cloud Gaming</title>
 </head>
@@ -19,14 +18,27 @@
 		<!-- Select which benchmark results user wants to check -->
 		<div id="benchmark-tools">
 			<h4>Benchmarking Tools Used</h4>
-			<div class="row">
-				<div class="col-md-4">Unigine Heaven</div>
-				<div class="col-md-4">Unigine Valley</div>
-				<div class="col-md-4">glmark2</div>
+			<div class="row tools-outer">
+				<div class="tools-inner">
+					<a href="results/heaven.html">
+					<span class="col-md-4" >Unigine Heaven</span>
+					<img src="https://unigine.com/press-releases/130212-heaven-benchmark-4.0/heaven1.jpg" alt="Unigine Heaven">
+				</a>
+				<a href="results/valley.html">
+					<span class="col-md-4" >Unigine Valley</span>
+					<img src="https://unigine.com/products/valley/valley2.jpg" alt="Unigine Valley">
+				</a>
+				<a href="results/glmark2.html">
+					<span class="col-md-4" >glmark2</span>
+					<img src="http://repo.openpandora.org/files/pnd/glmark2_ptitseb/preview1.png" alt="glmark2">
+				</a>
+				</div>
 			</div>
 		</div>
 	</div>
 	
 	<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/loadresults.js"></script>
 </body>
 </html>
