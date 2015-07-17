@@ -64,14 +64,26 @@ $(window).ready(function(){
 		// TODO: DOM element change to display error?
 	}
 
-	
+	/**
+	 * Class for "machines" used in benchmarking
+	 * @param name {String} the name of the machine
+	 */
 	function Machine(name) {
 		var pairs = []; // Array of DataPair instances
 		
+		/**
+		 * Returns the name of the machine
+		 */
 		this.getName = function() {
 			return name;
 		};
 		
+		/**
+		 * Creates a DataPair instance form card name and measurement values
+		 * and pushes it to the pairs array
+		 * @param card {String} name of the graphics card
+		 * @param values {Array} array of the measurement values
+		 */
 		this.pushPair = function(card, values) {
 			pairs.push(new DataPair(card, values));
 		};
@@ -102,6 +114,9 @@ $(window).ready(function(){
 			return values;
 		}
 		
+		/**
+		 * Debug function
+		 */
 		this.print = function(){
 			console.log("  - " + card + ": " + values);
 		};
@@ -111,6 +126,12 @@ $(window).ready(function(){
 		
 		var machines = []; // Array of machines
 		
+		/**
+		 * Push values into a machine
+		 * @param name {String} The name of the machine
+		 * @param card {String} The name of the graphics card
+		 * @param values {Array} The measurement values
+		 */
 		this.pushValues = function(name, card, values){
 			var machineExists = false;
 			
@@ -134,6 +155,9 @@ $(window).ready(function(){
 			}
 		};
 		
+		/**
+		 * Constructs a DOM interface from the machines array
+		 */
 		this.constructInterface = function(){
 			// TODO: Create DOM objects to display data
 		};
