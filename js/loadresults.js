@@ -41,7 +41,7 @@ function parse(data, path) {
 	        	}
 	        	values[i] = float;
 	        }
-	        dataHandler.pushValues(split[0], split[1], values); // Machine, Card, Values
+	        dataHandler.pushValues(split[1], split[0], values); // Card, Machine, Values
 	    }
 	}
 	
@@ -64,7 +64,7 @@ function displayError(msg) {
  * Class for "machines" used in benchmarking
  * @param name {String} the name of the machine
  */
-function Machine(name) {
+function Card(name) {
 	var pairs = []; // Array of DataPair instances
 	
 	/**
@@ -75,28 +75,35 @@ function Machine(name) {
 	};
 	
 	/**
-	 * Creates a DataPair instance form card name and measurement values
+	 * Creates a DataPair instance form machine name and measurement values
 	 * and pushes it to the pairs array
-	 * @param cardName {String} name of the graphics card
+	 * @param machineName {String} name of the machine
 	 * @param values {Array} array of the measurement values
 	 */
-	this.pushPair = function(cardName, values) {
-		pairs.push(new DataPair(cardName, values));
+	this.pushPair = function(machineName, values) {
+		pairs.push(new DataPair(machineName, values));
 	};
 	
 	/**
-	 * Gets the card with given name, if not found displays an error
-	 * @param cardName {String} Name of the card
+	 * Gets the pair with machine with given name, if not found displays an error
+	 * @param machineName {String} Name of the machine
 	 */
-	this.getPair = function(cardName){
+	this.getPair = function(machineName){
 		for(var i = 0; i < pairs.length; i++){
-			if(pairs[i].hasCard(cardName)){
+			if(pairs[i].hasCard(machineName)){
 				return pairs[i];
 			}
 		}
 		displayError("No pair found for card " + cardName + " in machine " + name);
 		return null;
 	};
+	
+	/**
+	 * Returns the array of DataPairs
+	 */
+	this.getPairs = function(){
+		return pairs;
+	}
 	
 	/**
 	 * Debug function
@@ -114,10 +121,10 @@ function Machine(name) {
  * @param card {String} The name of the graphics card
  * @param values {Array} The benchmark score values
  */
-function DataPair(card, values) {
+function DataPair(machine, values) {
 	
-	this.hasCard = function(name) {
-		return (card === name)
+	this.hasMachine = function(name) {
+		return (machine === name)
 	};
 	
 	this.getValues = function(){
@@ -128,29 +135,29 @@ function DataPair(card, values) {
 	 * Debug function
 	 */
 	this.print = function(){
-		console.log("  - " + card + ": " + values);
+		console.log("  - " + machine + ": " + values);
 	};
 }
 
 function DataHandler() {
 	
-	var machines = []; // Array of machines
+	var cards = []; // Array of graphics cards
 	
 	/**
 	 * Push values into a machine
 	 * @param name {String} The name of the machine
-	 * @param card {String} The name of the graphics card
+	 * @param machine {String} The name of the machine
 	 * @param values {Array} The measurement values
 	 */
-	this.pushValues = function(name, card, values){
-		var machineExists = false;
+	this.pushValues = function(name, machine, values){
+		var cardExists = false;
 		
-		for(var i = 0; i < machines.length; i++){
-			var m = machines[i];
-			if(m.getName() == name){
+		for(var i = 0; i < cards.length; i++){
+			var card = cards[i];
+			if(card.getName() == name){
 				// If machine already exits just push the values into it
-				m.pushPair(card, values);
-				machineExists = true;
+				card.pushPair(machine, values);
+				cardExists = true;
 				
 				// Break out of loop
 				break;
@@ -158,10 +165,10 @@ function DataHandler() {
 		}
 		
 		// No matching machine found: create a new one
-		if(!machineExists){
-			var machine = new Machine(name);
-			machine.pushPair(card, values);
-			machines.push(machine);
+		if(!cardExists){
+			var card = new Card(name);
+			card.pushPair(machine, values);
+			cards.push(card);
 		}
 	};
 	
@@ -170,15 +177,30 @@ function DataHandler() {
 	 */
 	this.constructInterface = function(){
 		// TODO: Create DOM objects to display data
-		var first = machines[0];
+		for(var i = 0; i < cards.length; i++){
+			var card = cards[i];
+			var pairs = card.getPairs();
+			
+			for(var j = 0; j < pairs.length; j++){
+				createBlock(pairs[j]);
+			}
+		}
 	};
+	
+	/**
+	 * Creates a single DOM block to display results
+	 * @param pair {DataPair} A DataPair instance to create the block from
+	 */
+	function createBlock(pair) {
+		
+	}
 	
 	/**
 	 * Debug function
 	 */
 	this.print = function() {
-		for(var i = 0; i < machines.length; i++) {
-			machines[i].print();
+		for(var i = 0; i < cards.length; i++) {
+			cards[i].print();
 		}
 	};
 }
