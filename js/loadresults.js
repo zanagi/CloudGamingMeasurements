@@ -44,6 +44,7 @@ function parse(data, path) {
 	        dataHandler.pushValues(split[1], split[0], values); // Card, Machine, Values
 	    }
 	}
+	dataHandler.constructInterface();
 	
 	// Debug
 	// console.log(data);
@@ -178,21 +179,45 @@ function DataHandler() {
 	this.constructInterface = function(){
 		// TODO: Create DOM objects to display data
 		for(var i = 0; i < cards.length; i++){
-			var card = cards[i];
-			var pairs = card.getPairs();
-			
-			for(var j = 0; j < pairs.length; j++){
-				createBlock(pairs[j]);
-			}
+			createSelection(cards[i]);
 		}
 	};
 	
+	function createSelection(card) {
+		var name = card.getName();
+		
+		// Create the selection area
+		var div = document.createElement("div");
+		$(div).addClass("select-area");
+		
+		// Create the area title and append it to area
+		var areaTitle = document.createElement("p");
+		var text = document.createTextNode(name);
+		areaTitle.appendChild(text);
+		$(areaTitle).addClass("center-text");
+		$(div).append(areaTitle);
+		
+		// Create the clickable blocks and append them to area
+		var pairs = card.getPairs();
+		for(var i = 0; i < pairs.length; i++){
+			var block = document.createElement("div");
+			$(block).addClass("select-block");
+			
+			$(div).append(block);
+		}
+		$("#select").append(div);
+	}
+	
 	/**
 	 * Creates a single DOM block to display results
+	 * @param name {Card} The graphics card
 	 * @param pair {DataPair} A DataPair instance to create the block from
 	 */
-	function createBlock(pair) {
+	function createBlock(card, pair) {
 		
+		var div = document.createElement("div");
+		
+		$("#content").append(div);
 	}
 	
 	/**

@@ -1,0 +1,19 @@
+.center-text {
+	text-align: center;
+}
+
+.select-area {
+	border: 1px solid black;
+	width: 600px;
+	margin: 1px auto;
+}
+
+.select-area .select-block {
+	display: inline-block;
+	cursor: pointer;
+	width: 140px;
+	height: 100px;
+	margin-left: 45px;
+	margin-bottom: 10px;
+	background-color: green;
+}
