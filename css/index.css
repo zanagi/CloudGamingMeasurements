@@ -16,20 +16,18 @@ h1, h4 {
 }
 
 #benchmark-tools {
-	margin-top: 50px;
-}
-
-div.tools-outer {
+	margin: 0 auto;
 	width: 1000px;
 	outline: 5px solid green;
-	margin: 0 auto;
+}
+
+div.tools-outer {	
 	background-color: white;
 }
 
 div.tools-inner {
 	width: 980px;
 	margin: 10px auto;
-	
 }
 
 div.tools-inner a {

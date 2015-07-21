@@ -77,11 +77,25 @@ function Machine(name) {
 	/**
 	 * Creates a DataPair instance form card name and measurement values
 	 * and pushes it to the pairs array
-	 * @param card {String} name of the graphics card
+	 * @param cardName {String} name of the graphics card
 	 * @param values {Array} array of the measurement values
 	 */
-	this.pushPair = function(card, values) {
-		pairs.push(new DataPair(card, values));
+	this.pushPair = function(cardName, values) {
+		pairs.push(new DataPair(cardName, values));
+	};
+	
+	/**
+	 * Gets the card with given name, if not found displays an error
+	 * @param cardName {String} Name of the card
+	 */
+	this.getPair = function(cardName){
+		for(var i = 0; i < pairs.length; i++){
+			if(pairs[i].hasCard(cardName)){
+				return pairs[i];
+			}
+		}
+		displayError("No pair found for card " + cardName + " in machine " + name);
+		return null;
 	};
 	
 	/**
@@ -156,6 +170,7 @@ function DataHandler() {
 	 */
 	this.constructInterface = function(){
 		// TODO: Create DOM objects to display data
+		var first = machines[0];
 	};
 	
 	/**

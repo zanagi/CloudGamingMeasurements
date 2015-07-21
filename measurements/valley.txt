@@ -1,5 +1,8 @@
 {
-	"Docker/GeForce GTX 960": "2825/2826/2823",
 	"Qemu/GeForce GTX 960": "2524/2546/2532",
-	"Qemu/Quadro K2000": "764/764/765"
+	"Docker/GeForce GTX 960": "2809/2809/2809",
+	"Host/GeForce GTX 960": "2819/2806/2811",
+	"Qemu/Quadro K2000": "764/764/765",
+	"Docker/Quadro K2000": "797/798/798",
+	"Host/Quadro K2000": "796/796/798"
 }
