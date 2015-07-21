@@ -1,0 +1,35 @@
+#toc {
+	width: 300px;
+	padding: 5px;
+	background-color: #f9f9f9;
+	border: 1px solid #ddd;
+}
+
+#toc-title {
+	text-align: center;
+	padding: 0;
+}
+
+#toc ul {
+	list-style-type: none;
+	list-style-image: none;
+	margin-left: 0px;
+	padding: 0px;
+}
+
+#toc ul li {
+	margin-left: 10px;
+}
+
+#toc ul li a {
+	text-decoration: none;
+}
+
+.code {
+	color: black;
+	background-color: #f9f9f9;
+	border: 1px solid #ddd;
+	padding: 1em;
+	text-align: left;
+	font-family: monospace,Courier;
+}

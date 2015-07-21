@@ -3,40 +3,144 @@
 <head>
 <meta charset="UTF-8">
 
-<!-- Bootstrap -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="../css/instructions.css">
 
 <title>Docker - Instructions</title>
 </head>
 
 <body>
+	<div class="back">
+		<a href="../index.html">Back</a>
+	</div>
+
 	<div id="content">
 		<h1>Docker</h1>
 		<p>Docker is an open-source project that automates the deployment of applications inside software containers.</p>
 		
 		<!-- Table of Contents -->
 		<div id="toc">
+			<h4 id="toc-title">Contents</h4>
+			<ul>
+				<li><a href="#installation">Installation</a></li>
+				<li><a href="#setup">Setup</a></li>
+				<li><a href="#cr">Checkpoint/Restore</a></li>
+			</ul>
 		</div>
 		
 		<div id="installation">
-			<h4>Installation</h4>
-			<p></p>
+			<h2>Installation</h2>
+			<p>
+				Follow the instructions on
+				<a href="https://docs.docker.com/installation/ubuntulinux/" target="_blank">Docker's web page</a>.
+			</p>
 		</div>
 		
 		<div id="setup">
-			<h4>Setup</h4>
-			<p></p>
+			<h2>Setup</h2>
+			<p>
+				If you want to run graphical applications inside your docker containers, you need to allow local connections to your
+				X server with:
+			</p>
+			<p class="code">
+				xhost local:root
+			</p>
+			<p>
+				If you want to have Steam inside your Docker container the simplest way is to use 
+				<a href="https://registry.hub.docker.com/u/tianon/steam/" target="_blank">tianon's Docker image</a> which contains Steam
+				p class="code"-installed on SteamOS. You can create a detached container with the following command:
+			</p>
+			<p class="code">
+				docker run -d --privileged=true -v /etc/machine-id:/etc/machine-id:ro -v /var/run/dbus:/var/run/dbus -v /tmp/.X11-unix:/tmp/.X11-unix:rw -e DISPLAY=unix$DISPLAY --device /dev/dri/card0 tianon/steam
+			</p>
+			<p>
+				Depending on your OS and version you might have to do some minor adjustments such as replacing
+				<i>/dev/dri/card0</i> with <i>/dev/dri</i>.
+			</p>
+			<p>
+				You can see all existing containers with:
+			</p>
+			<p class="code">
+				docker ps -a
+			</p>
+			<p>
+				The container stops when you exit from the main process of the docker container (Steam in the example above). You
+				can start it again with the command:
+			</p>
+			<p class="code">
+				docker start <i>container_id</i>
+			</p>
+			<p>
+				If you want to customize your container further I recommend creating an interactive Docker container with Ubuntu installed.
+				Here's the Dockerfile that we've been using. You can use it as the base for your Docker image:
+			</p>
+			<p class="code">
+				FROM ubuntu <br>
+				<br>
+				RUN apt-get update <br>
+				RUN apt-get install -y software-properties-common <br>
+				RUN apt-get install -y mesa-utils <br>
+				<br>
+				RUN apt-get install -y binutils <br>
+				<br>
+				# Required for Steam <br>
+				RUN dpkg --add-architecture i386 <br>
+				RUN add-apt-repository multiverse <br>
+				RUN apt-get update <br>
+				<br>
+				ADD NVIDIA-DRIVER.run /tmp/NVIDIA-DRIVER.run <br>
+			</p>
+			<p>
+				Create an empty folder and a file named <i>Dockerfile</i> inside it. Then copy and paste the above into it. The Dockerfile
+				requires you to have an Nvidia driver installer named <i>NVIDIA-DRIVER.run</i> in the same folder as itself. If you don't
+				want to download it you can remove the line <i>ADD NVIDIA-DRIVER.run /tmp/NVIDIA-DRIVER.run</i> and get it using
+				<i>wget</i> (needs to be installed manually) inside the container. 
+			</p>
+			<p>
+				Go to the folder with Dockerfile and build the Docker image with the following command:
+			</p>
+			<p class="code">
+				docker build -t <i>image_name</i> .
+			</p>
+			<p>
+				Then create an interactive Docker container:
+			</p>
+			<p class="code">
+				docker run -i -t --privileged=true -v /etc/machine-id:/etc/machine-id:ro -v /var/run/dbus:/var/run/dbus -v /tmp/.X11-unix:/tmp/.X11-unix:rw -v /dev/shm:/dev/shm --device /dev/dri/card0 -e "DISPLAY=unix:0.0" image_name /bin/bash
+			</p>
+			<p>
+				Now you should be attached to the terminal of your new Docker container. From here on you can run basic Unix commands
+				as you normally would. If you need Steam the first thing you should do is install it and run it once (before installing
+				Nvidia drivers):
+			</p>
+			<p class="code">
+				apt-get install -y steam <br>
+				/usr/games/steam <br>
+			</p>
+			<p>
+				<b>After</b> this install the Nvidia drivers:
+			</p>
+			<p class="code">
+				sh /tmp/NVIDIA-DRIVER.run -a -N --ui=none --no-kernel-module <br>
+				rm /tmp/NVIDIA-DRIVER.run <br>
+			</p>
 		</div>
 		
 		<div id="cr">
-			<h4>Checkpoint/Restore</h4>
-			<p></p>
+			<h2>Checkpoint/Restore</h2>
+			<p>
+				For live migration, Docker provides C/R (checkpoint/restore) functionality using CRIU, 
+				allowing the user to freeze their processes and restore them later. Unfortunately the functionality
+				is still on works and some applications are unable to be frozen.
+			</p>
+			<p>
+				The easiest way to get started with Docker C/R, is to go to
+				<a href="https://github.com/SaiedKazemi/docker/releases" target="_blank">Saied Kazemi's Github page for Docker</a>
+				and download the compiled Docker binary (docker-1.5.0). You might also have to install the <i>criu</i> package.
+			</p>
+			<p class="code">
+				sudo apt-get install criu
+			</p>
+			
 		</div>
 	</div>
-	
-	<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="js/loadresults.js"></script>
-</body>
 </html>

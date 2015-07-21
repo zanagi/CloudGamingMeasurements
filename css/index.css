@@ -2,6 +2,19 @@ h1, h4 {
 	text-align: center;
 }
 
+#instructions {
+	width: 600px;
+	padding: 10px;
+	margin: 0 auto;
+	text-align: center;
+}
+
+#instructions span {
+	outline: 1px solid black;
+	font-size: 20px;
+	background-color: orange;
+}
+
 #benchmark-tools {
 	margin-top: 50px;
 }
