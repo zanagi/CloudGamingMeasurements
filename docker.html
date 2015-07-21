@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 
-<link rel="stylesheet" href="../css/instructions.css">
+<link rel="stylesheet" href="css/instructions.css">
 
 <title>Docker - Instructions</title>
 </head>
 
 <body>
 	<div class="back">
-		<a href="../index.html">Back</a>
+		<a href="index.html">Back</a>
 	</div>
 
 	<div id="content">
@@ -19,7 +19,7 @@
 		
 		<!-- Table of Contents -->
 		<div id="toc">
-			<h4 id="toc-title">Contents</h4>
+			<h3 id="toc-title">Contents</h3>
 			<ul>
 				<li><a href="#installation">Installation</a></li>
 				<li><a href="#setup">Setup</a></li>
@@ -47,10 +47,11 @@
 			<p>
 				If you want to have Steam inside your Docker container the simplest way is to use 
 				<a href="https://registry.hub.docker.com/u/tianon/steam/" target="_blank">tianon's Docker image</a> which contains Steam
-				p class="code"-installed on SteamOS. You can create a detached container with the following command:
+				pre-installed on SteamOS. You can create a detached container with the following command:
 			</p>
 			<p class="code">
-				docker run -d --privileged=true -v /etc/machine-id:/etc/machine-id:ro -v /var/run/dbus:/var/run/dbus -v /tmp/.X11-unix:/tmp/.X11-unix:rw -e DISPLAY=unix$DISPLAY --device /dev/dri/card0 tianon/steam
+				docker run -d --privileged=true -v /etc/machine-id:/etc/machine-id:ro -v /var/run/dbus:/var/run/dbus
+				-v /tmp/.X11-unix:/tmp/.X11-unix:rw -e DISPLAY=unix$DISPLAY --device /dev/dri/card0 tianon/steam
 			</p>
 			<p>
 				Depending on your OS and version you might have to do some minor adjustments such as replacing
@@ -105,7 +106,8 @@
 				Then create an interactive Docker container:
 			</p>
 			<p class="code">
-				docker run -i -t --privileged=true -v /etc/machine-id:/etc/machine-id:ro -v /var/run/dbus:/var/run/dbus -v /tmp/.X11-unix:/tmp/.X11-unix:rw -v /dev/shm:/dev/shm --device /dev/dri/card0 -e "DISPLAY=unix:0.0" image_name /bin/bash
+				docker run -i -t --privileged=true -v /etc/machine-id:/etc/machine-id:ro -v /var/run/dbus:/var/run/dbus
+				-v /tmp/.X11-unix:/tmp/.X11-unix:rw -v /dev/shm:/dev/shm --device /dev/dri/card0 -e "DISPLAY=unix:0.0" image_name /bin/bash
 			</p>
 			<p>
 				Now you should be attached to the terminal of your new Docker container. From here on you can run basic Unix commands
@@ -123,6 +125,18 @@
 				sh /tmp/NVIDIA-DRIVER.run -a -N --ui=none --no-kernel-module <br>
 				rm /tmp/NVIDIA-DRIVER.run <br>
 			</p>
+			<p>
+				If your Steam games fail to start, try setting the following options from <i>Properties->Set Launch Options...</i>
+			</p>
+			<p class="code">
+				LD_PRELOAD="libpthread.so.0 libGL.so.1" __GL_THREADED_OPTIMIZATIONS=1 %command%
+			</p>
+			<p>
+				After exiting from an interactive container, you can start it again and attach it to your terminal with
+			</p>
+			<p class="code">
+				docker start <i>container_id</i> &amp;&amp; docker attach <i>container_id</i>
+			</p>
 		</div>
 		
 		<div id="cr">
@@ -135,12 +149,58 @@
 			<p>
 				The easiest way to get started with Docker C/R, is to go to
 				<a href="https://github.com/SaiedKazemi/docker/releases" target="_blank">Saied Kazemi's Github page for Docker</a>
-				and download the compiled Docker binary (docker-1.5.0). You might also have to install the <i>criu</i> package.
+				and download the compiled Docker binary (docker-1.5.0). You might also have to install the <i>criu</i> package:
 			</p>
 			<p class="code">
 				sudo apt-get install criu
 			</p>
-			
+			<p>
+				If you already have Docker installed stop the current Docker daemon before starting
+				the new one:
+			</p>
+			<p class="code">
+				sudo service docker stop <br>
+				# start new docker <br>
+				sudo ./docker-1.5.0 -d
+			</p>
+			<p>
+				Now you should be ready to create new containers and checkpoint them. Please note that for example, 32-bit
+				applications and applications connected to the "real" X server cannot be dumped/restored. If you want to C/R
+				containers with graphical applications running
+				you need to start an X server inside the Docker container (some example solutions below).
+			</p>
+			<p>
+				Checkpointing containers is quite simple: start the container and when you want to checkpoint it run:
+			</p>
+			<p class="code">
+				docker checkpoint <i>container_id</i>
+			</p>
+			<p>
+				As for restore:
+			</p>
+			<p class="code">
+				docker restore <i>container_id</i>
+			</p>
+			<p>
+				If you fail to restore the container and find something about "the old root is the same as new root" you
+				might have to do the following before restoring:
+			</p>
+			<p class="code">
+				sudo mount --rbind /var/lib/docker/vfs/dir/<i>container_id</i> /var/lib/docker/vfs/dir/<i>container_id</i>
+			</p>
+			<p>
+				For checkpointing containers with graphical applications running, here's a few solutions:
+			</p>
+			<p>
+				<a href="https://blog.docker.com/2013/07/docker-desktop-your-desktop-over-ssh-running-inside-of-a-docker-container/">
+					Docker Desktop over SSH
+				</a>
+			</p>
+			<p>
+				<a href="https://github.com/fcwu/docker-ubuntu-vnc-desktop">
+					Docker Ubuntu VNC Desktop
+				</a>
+			</p>
 		</div>
 	</div>
 </html>
