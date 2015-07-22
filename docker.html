@@ -91,13 +91,13 @@
 				ADD NVIDIA-DRIVER.run /tmp/NVIDIA-DRIVER.run <br>
 			</p>
 			<p>
-				Create an empty folder and a file named <i>Dockerfile</i> inside it. Then copy and paste the above into it. The Dockerfile
+				Create an empty folder and a file named <i>Dockerfile</i> inside it. Then copy and paste the lines above into it. The Dockerfile
 				requires you to have an Nvidia driver installer named <i>NVIDIA-DRIVER.run</i> in the same folder as itself. If you don't
 				want to download it you can remove the line <i>ADD NVIDIA-DRIVER.run /tmp/NVIDIA-DRIVER.run</i> and get it using
 				<i>wget</i> (needs to be installed manually) inside the container. 
 			</p>
 			<p>
-				Go to the folder with Dockerfile and build the Docker image with the following command:
+				Go to (open terminal in) the folder with Dockerfile and build the Docker image with the following command:
 			</p>
 			<p class="code">
 				docker build -t <i>image_name</i> .
@@ -107,7 +107,8 @@
 			</p>
 			<p class="code">
 				docker run -i -t --privileged=true -v /etc/machine-id:/etc/machine-id:ro -v /var/run/dbus:/var/run/dbus
-				-v /tmp/.X11-unix:/tmp/.X11-unix:rw -v /dev/shm:/dev/shm --device /dev/dri/card0 -e "DISPLAY=unix:0.0" image_name /bin/bash
+				-v /tmp/.X11-unix:/tmp/.X11-unix:rw -v /dev/shm:/dev/shm --device /dev/dri/card0 -e DISPLAY=unix$DISPLAY <i>image_name</i>
+				/bin/bash
 			</p>
 			<p>
 				Now you should be attached to the terminal of your new Docker container. From here on you can run basic Unix commands

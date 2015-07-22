@@ -85,21 +85,23 @@
 				<a href="http://vfio.blogspot.fi/2014/08/vfiovga-faq.html" target="_blank">Apparently</a>
 				this is due to an unintentional bug where the Nvidia driver is disabled if KVM is detected.
 				The way to fix this, as mentioned on the link, is to add <i>kvm=off</i> to the list of cpu options on Qemu. 
-				However, using this option might sometimes cause some weird acceleration where a single key p class="code"ss is processed multiple
+				However, using this option might sometimes cause some weird acceleration where a single key press is processed multiple
 				times and graphical applications run "faster" than normally. This is extremely annoying especially when benchmarking since
 				the acceleration causes the software to detect the FPS rate much lower than it should be.
 			</p>
 			<p>
-				Here's how to fix this on a Ubuntu VM with Nvidia drivers installed:
+				Here's how to fix this for a single startup on a Ubuntu VM with Nvidia drivers installed:
 			</p>
 			<p>
-				If your VM doesn't support hibernation start the VM and follow the instructions
+				1. If your VM doesn't support hibernation start the VM and follow the instructions
 				<a href="http://ubuntuhandbook.org/index.php/2014/04/enable-hibernate-ubuntu-14-04/" target="_blank">here</a>
 				to enable hibernation.
 			</p>
 			<p>
-				Stop and exit the VM.
-				Then start the VM <b>without</b> the <i>kvm=off</i> option. You should be greeted either with the terminal or 
+				2. Stop and exit the VM.
+			</p>
+			<p>
+				3. Start start the VM <b>without</b> the <i>kvm=off</i> option. You should be greeted either with the terminal or 
 				a black screen (in which case p class="code"ss Ctrl+Alt+F1 to enter terminal) without GUI. Login from the terminal and then
 				hibernate your machine:
 			</p>
@@ -107,25 +109,25 @@
 				sudo pm-hibernate
 			</p>
 			<p>
-				After confirming that your VM has powered off, exit from it and then start it again, but this time
+				4. After confirming that your VM has powered off, exit from it and then start it again, but this time
 				<b>with</b> the <i>kvm=off</i> option. You should be greeted with the same terminal where you left before.
 			</p>
 			<p>
-				Disable and then enable the nvidia module:
+				5. Disable and then enable the nvidia module:
 			</p>
 			<p class="code">
 				sudo modprobe -r nvidia
 				sudo modprobe nvidia
 			</p>
 			<p>
-				Then start your display manager:
+				6. Then start your display manager:
 			</p>
 			<p class="code">
 				sudo service lightdm start
 			</p>
 			<p>
 				And voila! Your VM should now be able to display the GUI without the annoying acceleration, even with Nvidia drivers
-				installed. Unfornately we haven't found any other solutions to this bug and the processed above need to be done each time
+				installed. Unfortunately we haven't found any other solutions to this bug and the processed above need to be done each time
 				the machine is started. Hopefully Nvidia decides to fix it soon or someone finds a better solution for it.
 			</p>
 		</div>

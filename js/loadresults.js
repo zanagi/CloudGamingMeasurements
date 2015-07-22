@@ -119,7 +119,7 @@ function Card(name) {
 
 /**
  * Class for "graphics card"-"benchmark score" pairs
- * @param card {String} The name of the graphics card
+ * @param machine {String} The name of the machine
  * @param values {Array} The benchmark score values
  */
 function DataPair(machine, values) {
@@ -130,7 +130,20 @@ function DataPair(machine, values) {
 	
 	this.getValues = function(){
 		return values;
-	}
+	};
+	
+	this.getMachine = function(){
+		return machine;
+	};
+	
+	this.getAverage = function() {
+		var sum = 0;
+		var length = values.length;
+		for(var i = 0; i < length; i++){
+		    sum += parseInt(values[i], 10);
+		}
+		return sum / length;
+	};
 	
 	/**
 	 * Debug function
@@ -177,47 +190,114 @@ function DataHandler() {
 	 * Constructs a DOM interface from the machines array
 	 */
 	this.constructInterface = function(){
-		// TODO: Create DOM objects to display data
 		for(var i = 0; i < cards.length; i++){
-			createSelection(cards[i]);
+			var card = cards[i];
+			createSelection(card);
+			createGraphs(card);
 		}
+		
+		$(".select-block").click(function(){
+			// Toggle selection block transparency
+			$(this).toggleClass("inactive");
+			
+			// Show/Hide the graph
+			$("#" + $(this).data("graph")).toggleClass("hidden");
+		});
 	};
 	
 	function createSelection(card) {
 		var name = card.getName();
 		
 		// Create the selection area
-		var div = document.createElement("div");
-		$(div).addClass("select-area");
+		var area = document.createElement("div");
+		$(area).addClass("select-area");
 		
 		// Create the area title and append it to area
 		var areaTitle = document.createElement("p");
 		var text = document.createTextNode(name);
 		areaTitle.appendChild(text);
 		$(areaTitle).addClass("center-text");
-		$(div).append(areaTitle);
+		$(area).append(areaTitle);
 		
 		// Create the clickable blocks and append them to area
 		var pairs = card.getPairs();
 		for(var i = 0; i < pairs.length; i++){
-			var block = document.createElement("div");
-			$(block).addClass("select-block");
+			var pair = pairs[i];
 			
-			$(div).append(block);
+			// Initialize block
+			var block = document.createElement("div");
+			$(block).addClass("select-block"); // Start the blocks as inactive?
+			$(block).data("graph", withoutSpaces(name) + "-" + pair.getMachine());
+			
+			// Initialize text paragraph
+			var blockText = document.createElement("p");
+			var t = document.createTextNode(pair.getMachine());
+			blockText.appendChild(t);
+			$(blockText).addClass("center-text");
+			
+			$(block).append(blockText);
+			$(area).append(block);
 		}
-		$("#select").append(div);
+		$("#select").append(area);
 	}
 	
 	/**
 	 * Creates a single DOM block to display results
-	 * @param name {Card} The graphics card
-	 * @param pair {DataPair} A DataPair instance to create the block from
+	 * @param card {Card} the graphcis card
 	 */
-	function createBlock(card, pair) {
+	function createGraphs(card) {
+		var graphHeight = 200;
+		var cardName = card.getName();
+		var pairs = card.getPairs();
+		var maxValue = getMaxOfArray(pairs.map(function(p){
+			return p.getAverage();
+		}));
 		
-		var div = document.createElement("div");
+		var rowTitle = document.createElement("h3");
+		var titleText = document.createTextNode(cardName);
+		rowTitle.appendChild(titleText);
+		$(rowTitle).addClass("center-text");
+		$("#content").append(rowTitle);
 		
-		$("#content").append(div);
+		var row = document.createElement("div");
+		$(row).addClass("row");
+		
+		for(var i = 0; i < pairs.length; i++) {
+			var pair = pairs[i];
+			var machineName = pair.getMachine();
+			var average = pair.getAverage();
+			var areaId = withoutSpaces(cardName) + "-" + machineName;
+			
+			// Create the are for the graph
+			var graphsArea = document.createElement("div");
+			$(graphsArea).height(graphHeight + "px");
+			$(graphsArea).addClass("graph-area");
+			$(graphsArea).attr("id", areaId); // Add id for the selection onclick show/hide effect
+			
+			// Create graph
+			var graph = document.createElement("div");
+			var gHeight = 0.9 * graphHeight * average / maxValue; // 0.95 coefficient to limit max-height
+			$(graph).height(gHeight + "px");
+			$(graph).addClass("graph");
+			
+			// Initialize the element containing the average value
+			var valueTitle = document.createElement("h4");
+			var valueText = document.createTextNode(Math.floor(average)); // Convert average score to an integer
+			valueTitle.appendChild(valueText);
+			$(valueTitle).addClass("center-text graph-value");
+
+			// Initialize the element containing the machine name
+			var machineTitle = document.createElement("h4");
+			var machineText = document.createTextNode(machineName);
+			machineTitle.appendChild(machineText);
+			$(machineTitle).addClass("center-text graph-title")
+
+			$(graph).append(valueTitle);
+			$(graph).append(machineTitle);
+			$(graphsArea).append(graph);
+			$(row).append(graphsArea);
+		}
+		$("#content").append(row);
 	}
 	
 	/**
@@ -228,4 +308,12 @@ function DataHandler() {
 			cards[i].print();
 		}
 	};
+}
+
+function getMaxOfArray(numArray) {
+	return Math.max.apply(null, numArray);
+}
+
+function withoutSpaces(str) {
+	return str.replace(/\s+/g, '');
 }
