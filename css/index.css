@@ -15,8 +15,8 @@ h1, h4 {
 	background-color: orange;
 }
 
-#benchmark-tools {
-	margin: 0 auto;
+.benchmark-tools {
+	margin: 25px auto;
 	width: 1000px;
 	outline: 5px solid green;
 }
