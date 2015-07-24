@@ -140,7 +140,7 @@ function DataPair(machine, values) {
 		var sum = 0;
 		var length = values.length;
 		for(var i = 0; i < length; i++){
-		    sum += parseInt(values[i], 10);
+		    sum += parseFloat(values[i]);
 		}
 		return sum / length;
 	};
@@ -282,7 +282,7 @@ function DataHandler() {
 			
 			// Initialize the element containing the average value
 			var valueTitle = document.createElement("h4");
-			var valueText = document.createTextNode(Math.floor(average)); // Convert average score to an integer
+			var valueText = document.createTextNode(Math.round(average * 100) / 100); // Convert average score to a 2-decimal float
 			valueTitle.appendChild(valueText);
 			$(valueTitle).addClass("center-text graph-value");
 
