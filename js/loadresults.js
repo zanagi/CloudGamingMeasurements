@@ -106,18 +106,35 @@ function Card(name) {
  */
 function DataPair(machine, values) {
 	
+	/**
+	 * Checks whether the name of the machine matches the given name
+	 * @param name {String} the name of the machine to be checked
+	 * @returns {Boolean} true if name matches the machine name of this pair, otherwise returns false
+	 */
 	this.hasMachine = function(name) {
 		return (machine === name)
 	};
 	
+	/**
+	 * Gets the values of the pair
+	 * @returns {Array} the value array
+	 */
 	this.getValues = function(){
 		return values;
 	};
 	
+	/**
+	 * Gets the name of the machine of this pair
+	 * @returns {String} the machine name
+	 */
 	this.getMachine = function(){
 		return machine;
 	};
 	
+	/**
+	 * Gets the average value of the values
+	 * @returns {Number} The value average of the values
+	 */
 	this.getAverage = function() {
 		var sum = 0;
 		var length = values.length;
@@ -135,7 +152,12 @@ function DataPair(machine, values) {
 	};
 }
 
-
+/**
+ * Class for simulating multi-gpu benchmark results
+ * @param name {String} The combined name
+ * @param machine {String} The machine used for benchmark
+ * @param values {Array} Benchmark results
+ */
 function MultiCard(name, machine, values) {
 	var split = name.split("&");
 	var cards = [];
@@ -162,18 +184,34 @@ function MultiCard(name, machine, values) {
 		cards.push(card);
 	}
 	
+	/**
+	 * Gets a sub-parsed, combined name of the gpus
+	 * @returns {String} the combined name
+	 */
 	this.getName = function() {
 		return name.replace("&", " & ");
 	};
 	
+	/**
+	 * Gets the machine name
+	 * @returns {String} the machine name
+	 */
 	this.getMachine = function() {
 		return machine;
 	}
 	
+	/**
+	 * Gets all the cards of the multi-gpu setup
+	 * @returns {Array} the array of cards
+	 */
 	this.getCards = function() {
 		return cards;
 	}
 	
+	/**
+	 * Gets the maximum average value of the measurements
+	 * @returns {Number} the maximum average
+	 */
 	this.getMaxAverage = function() {
 		return getMaxOfArray(cards.map(function(c){
 			return c.getPairs()
@@ -184,6 +222,10 @@ function MultiCard(name, machine, values) {
 		}));
 	}
 	
+	/**
+	 * Gets the number of cards
+	 * @returns {Number} the number of cards
+	 */
 	this.getCardCount = function() {
 		return cards.length;
 	}
@@ -209,6 +251,9 @@ function MultiCard(name, machine, values) {
 }
 
 
+/**
+ * Class for managing the data and generating DOM elements
+ */
 function DataHandler() {
 	
 	var cards = []; // Array of graphics cards
@@ -281,6 +326,10 @@ function DataHandler() {
 		});
 	};
 	
+	/**
+	 * Creates the selection block for multi-gpu setup
+	 * @param multiCards {Array} the array of MultiCard instances
+	 */
 	function createSelectionMulti(multiCards) {
 		var name = multiCards[0].getName();
 		
@@ -315,6 +364,10 @@ function DataHandler() {
 		$("#select-multi").append(area);
 	}
 	
+	/**
+	 * Create graphs for multi-gpu setups
+	 * @param multiCards {Array} the array of MultiCard instances
+	 */
 	function createGraphsMulti(multiCards) {
 		var graphHeight = 200;
 		var cardsName = multiCards[0].getName();
@@ -375,6 +428,10 @@ function DataHandler() {
 		$("#content-multi").append(row);
 	}
 	
+	/**
+	 * Creates the selection block for single cards
+	 * @param card {Card} the card to generate the block from
+	 */
 	function createSelection(card) {
 		var name = card.getName();
 		
