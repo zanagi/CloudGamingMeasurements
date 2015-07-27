@@ -174,12 +174,24 @@ function MultiCard(name, machine, values) {
 		return cards;
 	}
 	
+	this.getMaxAverage = function() {
+		return getMaxOfArray(cards.map(function(c){
+			return c.getPairs()
+		}).map(function(pairs){
+			return getMaxOfArray(pairs.map(function(pair){
+				return pair.getAverage();
+			}));
+		}));
+	}
+	
 	this.getCardCount = function() {
 		return cards.length;
 	}
 	
+	/**
+	 * Temp function
+	 */
 	this.getPairs = function() {
-		// All cards have the same 
 		return cards[0].getPairs();
 	};
 	
@@ -315,13 +327,14 @@ function DataHandler() {
 		
 		var row = document.createElement("div");
 		$(row).addClass("row");
+
+		var maxValue = getMaxOfArray(multiCards.map(function(m){
+			return m.getMaxAverage();
+		}));
 		
 		for(var i = 0; i < multiCards.length; i++){
 			var multiCard = multiCards[i];
 			var graphWidth = 120.0 / multiCard.getCardCount();
-			var maxValue = getMaxOfArray(multiCard.getPairs().map(function(p){
-				return p.getAverage();
-			}));
 			var machineName = multiCard.getMachine();
 			var areaId = withoutSpaces(cardsName) + "-" + machineName;
 			
