@@ -39,7 +39,7 @@ function parse(data, path) {
 	
 	// Debug
 	// console.log(data);
-	dataHandler.print();
+	// dataHandler.print();
 }
 
 
