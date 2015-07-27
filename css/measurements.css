@@ -2,6 +2,10 @@
 	text-align: center;
 }
 
+#select, #select-multi {
+	margin-top: 50px;
+}
+
 .select-area {
 	border: 1px solid black;
 	width: 400px;
@@ -19,9 +23,9 @@
 .select-area .select-block {
 	display: inline-block;
 	cursor: pointer;
-	width: 95px;
+	width: 120px;
 	height: 50px;
-	margin-left: 30px;
+	margin-left: 10px;
 	margin-bottom: 10px;
 	background-color: green;
 }
@@ -36,13 +40,12 @@
 .graph-area {
 	position: relative;
 	display: inline-block;
-	width: 100px;
-	margin-left: 100px;
+	width: 120px;
+	margin-left: 85px;
 }
 
 .graph-area .graph {
 	position: absolute;
-	width: 100px;
 	bottom: 0px;
 	background-color: red;
 }
@@ -54,6 +57,7 @@
 	right: 0;
 	margin: 0 auto;
 	color: yellow;
+	z-index: 10;
 }
 
 .graph-value {

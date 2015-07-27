@@ -4,5 +4,8 @@
 	"Host/GeForce GTX 960": "1687/1673/1672/1672/1670",
 	"Qemu/Quadro K2000": "452/453/453",
 	"Docker/Quadro K2000": "471/471/471",
-	"Host/Quadro K2000": "473/473/473"
+	"Host/Quadro K2000": "473/473/473",
+	"Qemu&Qemu/GeForce GTX 960&Quadro K2000": "1546&451/1538&450/1548&453",
+	"Docker&Docker/GeForce GTX 960&Quadro K2000": "1636&470/1638&470/1637&470",
+	"Host&Host/GeForce GTX 960&Quadro K2000": "1640&472/1639&472/1642&472"
 }
