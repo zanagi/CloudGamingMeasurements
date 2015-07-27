@@ -311,7 +311,7 @@ function DataHandler() {
 		var titleText = document.createTextNode(cardsName);
 		rowTitle.appendChild(titleText);
 		$(rowTitle).addClass("center-text");
-		$("#content").append(rowTitle);
+		$("#content-multi").append(rowTitle);
 		
 		var row = document.createElement("div");
 		$(row).addClass("row");
