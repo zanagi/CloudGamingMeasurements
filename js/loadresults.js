@@ -277,7 +277,7 @@ function DataHandler() {
 		for(var i = 0; i < values.length; i++){
 			var float = parseFloat(values[i]);
 			if(isNaN(float)){
-        		displayError("Non-numeric value(s) in: " + path);
+        		displayError("Non-numeric value(s) in: " + name + "/" + machine);
         		return;
         	}
 			values[i] = float;
