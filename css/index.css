@@ -1,4 +1,4 @@
-h1, h4 {
+h1, h3, h4, #content p {
 	text-align: center;
 }
 
@@ -19,10 +19,10 @@ h1, h4 {
 	margin: 25px auto;
 	width: 1000px;
 	outline: 5px solid green;
+	background-color: #CCCCFF;
 }
 
-div.tools-outer {	
-	background-color: white;
+div.tools-outer {
 }
 
 div.tools-inner {
