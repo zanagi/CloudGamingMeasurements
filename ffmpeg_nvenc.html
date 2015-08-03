@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ffmpeg Video Compression results</title>
+
+<link type="text/css" rel="stylesheet" href="css/measurements.css" />
+</head>
+<body>
+	<div class="back">
+		<a href="index.html">Back</a>
+	</div>
+	
+	<p>
+		The video files used were <i>bbb_sunflower_1080p_60fps_normal.mp4</i> (Full HD) and
+		<i>bbb_sunflower_2160p_60fps_normal.mp4</i> (Quad-Full HD, 4K)
+	</p>
+	<p>
+		Nvenc uses the GeForce GTX 960 card to aid in compression.
+	</p>
+	<p>
+		Note: The values are the total time in seconds it took to compress the video (lower is better)! 
+	</p>
+	
+	
+	<div id="select"></div>
+	<div id="content"></div>
+	
+	<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script type="text/javascript" src="js/loadresults.js"></script>
+	<script>
+		$(window).ready(function(){
+			loadResults("ffmpeg_nvenc");
+		});
+	</script>
+</body>
+</html>

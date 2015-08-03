@@ -1,0 +1,6 @@
+{
+	"Qemu, nvenc/Full HD": "169.72",
+	"Qemu, x264/Full HD": "594.547",
+	"Host, nvenc/Full HD": "128.252",
+	"Host, x264/Full HD": "576.991"
+}

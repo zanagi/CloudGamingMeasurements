@@ -385,6 +385,8 @@ function DataHandler() {
 			return m.getMaxAverage();
 		}));
 		
+		var leftMargin = 85.0 * 3 / multiCards.length;
+		
 		for(var i = 0; i < multiCards.length; i++){
 			var multiCard = multiCards[i];
 			var graphWidth = 120.0 / multiCard.getCardCount();
@@ -396,6 +398,7 @@ function DataHandler() {
 			$(graphsArea).height(graphHeight + "px");
 			$(graphsArea).addClass("graph-area");
 			$(graphsArea).attr("id", areaId); // Add id for the selection onclick show/hide effect
+			$(graphsArea).css("margin-left", leftMargin + "px");
 			
 			var cards = multiCard.getCards();			
 			for(var j = 0; j < cards.length; j++){
@@ -474,9 +477,10 @@ function DataHandler() {
 	 */
 	function createGraphs(card) {
 		var graphHeight = 200;
-		var graphWidth = 120;
 		var cardName = card.getName();
 		var pairs = card.getPairs();
+		var graphWidth = 120.0 * 3 / pairs.length;
+		var leftMargin = 85.0 * 3 / pairs.length;
 		var maxValue = getMaxOfArray(pairs.map(function(p){
 			return p.getAverage();
 		}));
@@ -501,6 +505,8 @@ function DataHandler() {
 			$(graphsArea).height(graphHeight + "px");
 			$(graphsArea).addClass("graph-area");
 			$(graphsArea).attr("id", areaId); // Add id for the selection onclick show/hide effect
+			$(graphsArea).width(graphWidth + "px");
+			$(graphsArea).css("margin-left", leftMargin + "px");
 			
 			// Create graph
 			var graph = document.createElement("div");
