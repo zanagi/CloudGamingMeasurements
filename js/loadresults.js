@@ -260,6 +260,7 @@ function DataHandler() {
 	var multiCards = []; // Array of card combinations
 	var normalGraphWidth = 120.0;
 	var normalMargin = 85.0;
+	var totalMargin = 340.0;
 	
 	/**
 	 * Push values into a machine
@@ -388,7 +389,7 @@ function DataHandler() {
 			return m.getMaxAverage();
 		}));
 		
-		var leftMargin = normalMargin * 3 / multiCards.length;
+		var leftMargin = totalMargin / (multiCards.length + 1);
 		
 		for(var i = 0; i < multiCards.length; i++){
 			var multiCard = multiCards[i];
@@ -483,7 +484,7 @@ function DataHandler() {
 		var cardName = card.getName();
 		var pairs = card.getPairs();
 		var graphWidth = normalGraphWidth * 3 / pairs.length;
-		var leftMargin = normalMargin * 3 / pairs.length;
+		var leftMargin = totalMargin / (pairs.length + 1);
 		var maxValue = getMaxOfArray(pairs.map(function(p){
 			return p.getAverage();
 		}));
