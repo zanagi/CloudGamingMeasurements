@@ -258,6 +258,8 @@ function DataHandler() {
 	
 	var cards = []; // Array of graphics cards
 	var multiCards = []; // Array of card combinations
+	var normalGraphWidth = 120.0;
+	var normalMargin = 85.0;
 	
 	/**
 	 * Push values into a machine
@@ -314,9 +316,10 @@ function DataHandler() {
 			createGraphs(card);
 		}
 		
-		createSelectionMulti(multiCards);
-		createGraphsMulti(multiCards);
-		
+		if(multiCards.length > 0){
+			createSelectionMulti(multiCards);
+			createGraphsMulti(multiCards);
+		}
 		$(".select-block").click(function(){
 			// Toggle selection block transparency
 			$(this).toggleClass("inactive");
@@ -385,11 +388,11 @@ function DataHandler() {
 			return m.getMaxAverage();
 		}));
 		
-		var leftMargin = 85.0 * 3 / multiCards.length;
+		var leftMargin = normalMargin * 3 / multiCards.length;
 		
 		for(var i = 0; i < multiCards.length; i++){
 			var multiCard = multiCards[i];
-			var graphWidth = 120.0 / multiCard.getCardCount();
+			var graphWidth = normalGraphWidth / multiCard.getCardCount();
 			var machineName = multiCard.getMachine();
 			var areaId = withoutSpaces(cardsName) + "-" + machineName;
 			
@@ -456,8 +459,8 @@ function DataHandler() {
 			
 			// Initialize block
 			var block = document.createElement("div");
-			$(block).addClass("select-block"); // Start the blocks as inactive?
-			$(block).data("graph", withoutSpaces(name) + "-" + pair.getMachine());
+			$(block).addClass("select-block");
+			$(block).data("graph", withoutSpaces(name + "-" + pair.getMachine()));
 			
 			// Initialize text paragraph
 			var blockText = document.createElement("p");
@@ -479,8 +482,8 @@ function DataHandler() {
 		var graphHeight = 200;
 		var cardName = card.getName();
 		var pairs = card.getPairs();
-		var graphWidth = 120.0 * 3 / pairs.length;
-		var leftMargin = 85.0 * 3 / pairs.length;
+		var graphWidth = normalGraphWidth * 3 / pairs.length;
+		var leftMargin = normalMargin * 3 / pairs.length;
 		var maxValue = getMaxOfArray(pairs.map(function(p){
 			return p.getAverage();
 		}));
@@ -498,7 +501,7 @@ function DataHandler() {
 			var pair = pairs[i];
 			var machineName = pair.getMachine();
 			var average = pair.getAverage();
-			var areaId = withoutSpaces(cardName) + "-" + machineName;
+			var areaId = withoutSpaces(cardName + "-" + machineName);
 			
 			// Create the are for the graph
 			var graphsArea = document.createElement("div");

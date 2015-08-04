@@ -2,5 +2,9 @@
 	"Qemu, nvenc/Full HD": "169.72",
 	"Qemu, x264/Full HD": "594.547",
 	"Host, nvenc/Full HD": "128.252",
-	"Host, x264/Full HD": "576.991"
+	"Host, x264/Full HD": "576.991",
+	"Qemu, nvenc/Quad-Full HD (4K)": "677.065",
+	"Qemu, x264/Quad-Full HD (4K)": "2284.626",
+	"Host, nvenc/Quad-Full HD (4K)": "449.414",
+	"Host, x264/Quad-Full HD (4K)": "2194.622"
 }
