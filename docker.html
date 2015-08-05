@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 
 <link rel="stylesheet" href="css/instructions.css">
+<link rel="stylesheet" href="css/code.css">
 
 <title>Docker - Instructions</title>
 </head>
@@ -24,6 +25,7 @@
 				<li><a href="#installation">Installation</a></li>
 				<li><a href="#setup">Setup</a></li>
 				<li><a href="#cr">Checkpoint/Restore</a></li>
+				<li><a href="#misc">Misc Stuff</a>
 			</ul>
 		</div>
 		
@@ -203,6 +205,43 @@
 					Docker Ubuntu VNC Desktop
 				</a>
 			</p>
+		</div>
+		
+		
+		<div id="misc">
+			<h2>Misc Stuff</h2>
+			<div>
+				<h4>
+					A Dockerfile (ubuntu) with GamingAnywhere installed
+				</h4>
+				<p class="code">
+					FROM ubuntu <br>
+					<br>
+					RUN apt-get update &amp;&amp; apt-get install -y software-properties-common &amp;&amp; \ <br>
+					&nbsp;&nbsp;&nbsp;    apt-get install -y wget <br>
+					<br>
+					# Install packages that ga cannot find from a normal ubuntu image <br>
+					RUN dpkg --add-architecture i386 &amp;&amp; add-apt-repository multiverse <br>
+					RUN apt-get update &amp;&amp; \ <br>
+					&nbsp;&nbsp;&nbsp;    apt-get install -y libswscale2:i386 libx11-6:i386 libstdc++6:i386 \ <br>
+					&nbsp;&nbsp;&nbsp;    libxtst6:i386 zlib1g:i386 libbz2-1.0:i386 libfreetype6:i386 \ <br>
+					&nbsp;&nbsp;&nbsp;    libva1:i386 libasound2:i386 <br>
+					RUN apt-get remove -y libavutil52:i386 <br>
+					<br>
+					# GamingAnywhere installation <br>
+					RUN wget http://gaminganywhere.org/dl/gaminganywhere-0.8.0-bin.linux32.tar.bz2 \ <br>
+					&nbsp;&nbsp;&nbsp;     &amp;&amp; tar xvjf gaminganywhere-0.8.0-bin.linux32.tar.bz2 <br>
+					RUN echo /gaminganywhere-0.8.0/deps.posix/lib >> /etc/ld.so.conf.d/ga.conf <br>
+					RUN ldconfig <br>
+					RUN rm gaminganywhere-0.8.0-bin.linux32.tar.bz2 <br>
+				</p>
+				<p>After building the image, the simplest way to create a container: </p>
+				<p class="code">docker run -it <i>image_name</i> /bin/bash</p>
+				<p>
+					You might have to manually configure streaming display settings. <br>
+					The gaminganywhere folder is in the root folder, move it if necessary.
+				</p>
+			</div>
 		</div>
 	</div>
 </html>

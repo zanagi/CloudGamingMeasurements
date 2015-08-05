@@ -25,12 +25,3 @@
 #toc ul li a {
 	text-decoration: none;
 }
-
-.code {
-	color: black;
-	background-color: #f9f9f9;
-	border: 1px solid #ddd;
-	padding: 1em;
-	text-align: left;
-	font-family: monospace,Courier;
-}
