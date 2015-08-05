@@ -235,11 +235,19 @@
 					RUN ldconfig <br>
 					RUN rm gaminganywhere-0.8.0-bin.linux32.tar.bz2 <br>
 				</p>
-				<p>After building the image, the simplest way to create a container: </p>
-				<p class="code">docker run -it <i>image_name</i> /bin/bash</p>
+				<p>After building the image, you can create a container with the following: </p>
+				<p class="code">
+					docker run --dns 8.8.8.8 --privileged=true -v /etc/machine-id:/etc/machine-id:ro 
+					-v /var/run/dbus:/var/run/dbus -v /tmp/.X11-unix:/tmp/.X11-unix -v /dev/shm:/dev/shm 
+					--device /dev/dri/card0 -e "DISPLAY=unix:0.0" -it <i>image_name</i> /bin/bash
+				</p>
 				<p>
-					You might have to manually configure streaming display settings. <br>
-					The gaminganywhere folder is in the root folder, move it if necessary.
+					The gaminganywhere folder is in the root folder, move it if necessary. (Note: Remember to fix paths
+					to <i>/etc/ld.so.conf.d/ga.conf</i>)
+				</p>
+				<p>
+					Currently the GA server works only if <i>enable-audio</i> is set to false in the server config file. <br>
+					Otherwise Alsa spits out some werid errors.
 				</p>
 			</div>
 		</div>
