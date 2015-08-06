@@ -225,7 +225,7 @@
 					RUN apt-get update &amp;&amp; \ <br>
 					&nbsp;&nbsp;&nbsp;    apt-get install -y libswscale2:i386 libx11-6:i386 libstdc++6:i386 \ <br>
 					&nbsp;&nbsp;&nbsp;    libxtst6:i386 zlib1g:i386 libbz2-1.0:i386 libfreetype6:i386 \ <br>
-					&nbsp;&nbsp;&nbsp;    libva1:i386 libasound2:i386 <br>
+					&nbsp;&nbsp;&nbsp;    libva1:i386 libasound2:i386 libsdl2-2.0-0:i386 <br>
 					RUN apt-get remove -y libavutil52:i386 <br>
 					<br>
 					# GamingAnywhere installation <br>
@@ -246,8 +246,8 @@
 					to <i>/etc/ld.so.conf.d/ga.conf</i>)
 				</p>
 				<p>
-					Currently the GA server works only if <i>enable-audio</i> is set to false in the server config file. <br>
-					Otherwise Alsa spits out some werid errors.
+					Note: To use hardware renderer the container has to have the necessary drivers (i.e Nvidia) installed, see
+					<a href="#setup">above</a>. Otherwise you can choose to use software renderer by editing config files.
 				</p>
 			</div>
 		</div>
