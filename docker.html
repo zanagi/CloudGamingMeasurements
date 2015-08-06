@@ -239,7 +239,7 @@
 				<p class="code">
 					docker run --dns 8.8.8.8 --privileged=true -v /etc/machine-id:/etc/machine-id:ro 
 					-v /var/run/dbus:/var/run/dbus -v /tmp/.X11-unix:/tmp/.X11-unix -v /dev/shm:/dev/shm 
-					--device /dev/dri/card0 -e "DISPLAY=unix:0.0" -it <i>image_name</i> /bin/bash
+					--device /dev/dri/card0 --device /dev/snd:/dev/snd -e "DISPLAY=unix:0.0" -it <i>image_name</i> /bin/bash
 				</p>
 				<p>
 					The gaminganywhere folder is in the root folder, move it if necessary. (Note: Remember to fix paths
