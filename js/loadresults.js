@@ -189,7 +189,7 @@ function MultiCard(name, machine, values) {
 	 * @returns {String} the combined name
 	 */
 	this.getName = function() {
-		return name.replace("&", " & ");
+		return name.replace(/&/g, " & ");
 	};
 	
 	/**
@@ -318,9 +318,22 @@ function DataHandler() {
 		}
 		
 		if(multiCards.length > 0){
-			createSelectionMulti(multiCards);
-			createGraphsMulti(multiCards);
+			var names = [];
+			
+			for(var i = 0; i < multiCards.length; i++){
+				var name = multiCards[i].getName();
+				if(names.indexOf(name) < 0){
+					names.push(name);
+					
+					var newCards = multiCards.filter(function(m){
+						return m.getName() == name;
+					});
+					createSelectionMulti(newCards);
+					createGraphsMulti(newCards);
+				}
+			}
 		}
+		
 		$(".select-block").click(function(){
 			// Toggle selection block transparency
 			$(this).toggleClass("inactive");
@@ -390,18 +403,19 @@ function DataHandler() {
 		}));
 		
 		var leftMargin = totalMargin / (multiCards.length + 1);
+		var totalWidth = normalGraphWidth * 3 / multiCards.length;
 		
 		for(var i = 0; i < multiCards.length; i++){
 			var multiCard = multiCards[i];
-			var graphWidth = normalGraphWidth / multiCard.getCardCount();
+			var graphWidth = totalWidth / multiCard.getCardCount();
 			var machineName = multiCard.getMachine();
 			var areaId = withoutSpaces(cardsName) + "-" + machineName;
-			
 			
 			var graphsArea = document.createElement("div");
 			$(graphsArea).height(graphHeight + "px");
 			$(graphsArea).addClass("graph-area");
 			$(graphsArea).attr("id", areaId); // Add id for the selection onclick show/hide effect
+			$(graphsArea).width(totalWidth + "px");
 			$(graphsArea).css("margin-left", leftMargin + "px");
 			
 			var cards = multiCard.getCards();			
