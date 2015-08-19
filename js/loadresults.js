@@ -1,5 +1,6 @@
 /**
  * Loads the measurements with the given name and stores them to be displayed on the HTML page
+ * This function is called in every measurement page.
  * @param name {string} Name of the required benchmark tool, i.e heaven/valley/glmark2
  */
 function loadResults(name) {
@@ -70,6 +71,7 @@ function Card(name) {
 	/**
 	 * Gets the pair with machine with given name, if not found displays an error
 	 * @param machineName {String} Name of the machine
+	 * @returns {DataPair} the pair with given machine name if found, otherwise returns null
 	 */
 	this.getPair = function(machineName){
 		for(var i = 0; i < pairs.length; i++){
@@ -82,7 +84,7 @@ function Card(name) {
 	};
 	
 	/**
-	 * Returns the array of DataPairs
+	 * @returns {Array} the array of DataPairs
 	 */
 	this.getPairs = function(){
 		return pairs;
@@ -167,10 +169,10 @@ function MultiCard(name, machine, values) {
 		if(temp.length != split.length) {
 			displayError("The number of cards and the number of values in a segment is not equal.");
 		}
-
 		return temp;
 	});
 	
+	// Push the cards into the array
 	for(var i = 0; i < split.length; i++){
 		var card = new Card(split[i]);
 		card.pushPair(machine, mappedValues.map(function(valueArray){
